@@ -172,19 +172,21 @@
         var serviceURL = device.name;
         if(serviceURL.indexOf('http') === -1) serviceURL = 'http://' + serviceURL;
         var soapAction = "urn:schemas-upnp-org:service:ContentDirectory:1#Browse";
-        var soapBody = `
-    <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
-        <s:Body>
-            <u:Browse xmlns:u="urn:schemas-upnp-org:service:ContentDirectory:1">
-                <ObjectID>`+folder.id+`</ObjectID>
-                <BrowseFlag>BrowseDirectChildren</BrowseFlag>
-                <Filter>*</Filter>
-                <StartingIndex>0</StartingIndex>
-                <RequestedCount>1000</RequestedCount>
-                <SortCriteria></SortCriteria>
-            </u:Browse>
-        </s:Body>
-    </s:Envelope>`;
+        var soapBody =
+          '<?xml version="1.0" encoding="utf-8"?>' +
+          '<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" ' +
+          's:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">' +
+          '<s:Body>' +
+          '<u:Browse xmlns:u="urn:schemas-upnp-org:service:ContentDirectory:1">' +
+          '<ObjectID>' + folder.id + '</ObjectID>' +
+          '<BrowseFlag>BrowseDirectChildren</BrowseFlag>' +
+          '<Filter>*</Filter>' +
+          '<StartingIndex>0</StartingIndex>' +
+          '<RequestedCount>1000</RequestedCount>' +
+          '<SortCriteria/>' +
+          '</u:Browse>' +
+          '</s:Body>' +
+          '</s:Envelope>';
         $.ajax({
           url: serviceURL,
           type: "POST",
